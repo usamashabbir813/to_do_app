@@ -76,16 +76,20 @@ class _ForgetScreenState extends State<ForgetScreen> {
                 title: 'Forgot',
                 isLoading: isLoadingg,
                 onTap: () async {
-                  if (_formKey.currentState!.validate()) {
-                    setState(() {
-                      isLoadingg = true;
-                    });
-                    await FirebaseAuth.instance
-                        .sendPasswordResetEmail(email: forgotpassword.text);
-                    Get.to(() => SignInScreen());
-                    setState(() {
-                      isLoadingg = false;
-                    });
+                  try {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        isLoadingg = true;
+                      });
+                      await FirebaseAuth.instance
+                          .sendPasswordResetEmail(email: forgotpassword.text);
+                      Get.to(() => SignInScreen());
+                      setState(() {
+                        isLoadingg = false;
+                      });
+                    }
+                  } catch (e) {
+                    print(e.toString());
                   }
                 })
           ],

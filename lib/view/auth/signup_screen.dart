@@ -129,18 +129,22 @@ class _SignupScreenState extends State<SignupScreen> {
                     title: 'Sign Up ',
                     isLoading: isLoadingg,
                     onTap: () async {
-                      if (_formKey.currentState!.validate()) {
-                        setState(() {
-                          isLoadingg = true;
-                        });
-                        await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: emailcontroller.text,
-                                password: confirmpasswordcontroller.text);
-                        Get.to(() => SignInScreen());
-                        setState(() {
-                          isLoadingg = false;
-                        });
+                      try {
+                        if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            isLoadingg = true;
+                          });
+                          await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: emailcontroller.text,
+                                  password: confirmpasswordcontroller.text);
+                          Get.to(() => SignInScreen());
+                          setState(() {
+                            isLoadingg = false;
+                          });
+                        }
+                      } catch (e) {
+                        print(e.toString());
                       }
                     },
                   ),

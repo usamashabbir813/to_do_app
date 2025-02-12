@@ -48,7 +48,11 @@ class _OnboardingState extends State<Onboarding> {
           ComonButton(
             title: 'Get Started ',
             onTap: () {
-              Get.to(SignupScreen());
+              try {
+                Get.to(SignupScreen());
+              } catch (e) {
+                print(e.toString());
+              }
             },
           ),
           SizedBox(

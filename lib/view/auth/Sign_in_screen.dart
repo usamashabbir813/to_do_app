@@ -4,25 +4,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
-import 'package:to_do_app/view/auth/Sign_in_screen.dart';
+import 'package:to_do_app/constants/App_image.dart';
+import 'package:to_do_app/view/auth/Forget_screen.dart';
+import 'package:to_do_app/view/auth/signup_screen.dart';
+import 'package:to_do_app/view/user/Add_to_do_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
-
+class SignInScreen extends StatefulWidget {
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<SignInScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _LoginScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController Namecontroller = TextEditingController();
-  final TextEditingController emailcontroller = TextEditingController();
-  final TextEditingController createpasswordcontroller =
-      TextEditingController();
+
   final TextEditingController confirmpasswordcontroller =
       TextEditingController();
+  final TextEditingController emailcontroller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +35,7 @@ class _SignupScreenState extends State<SignupScreen> {
               padding: EdgeInsets.only(top: 67.h, right: 327.w, left: 14.w),
               child: GestureDetector(
                 onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    Get.to(() => SignInScreen());
-                  }
+                  Get.back();
                 },
                 child: Icon(
                   AppIcon.arrowback,
@@ -49,7 +47,7 @@ class _SignupScreenState extends State<SignupScreen> {
               height: 79.h,
             ),
             Text(
-              'Welcome Onboard',
+              'Welcome Back!',
               style: TextStyle(
                   fontSize: 20,
                   fontFamily: 'font1',
@@ -58,58 +56,25 @@ class _SignupScreenState extends State<SignupScreen> {
             SizedBox(
               height: 18.h,
             ),
-            Text(
-              textAlign: TextAlign.center,
-              'Let’s help you meet up your task',
-              style: TextStyle(
-                  fontSize: 13.sp,
-                  fontFamily: 'font1',
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.green),
-            ),
+            Image.asset(AppImage.Welcome),
             SizedBox(
-              height: 39.h,
+              height: 15.h,
             ),
             Padding(
               padding: EdgeInsets.only(left: 0.w, right: 0.w),
               child: Column(
                 children: [
                   ComonTextField(
-                    hintText: 'Enter your Full Name',
-                    controller: Namecontroller,
-                    validator: (value) {
-                      if (value == '' || value == null) {
-                        return 'Please enter your Name';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 26.h,
-                  ),
-                  ComonTextField(
                       hintText: 'Enter your Email address ',
                       validator: (value) {
                         if (value == '' || value == null) {
-                          return 'Please enter your email';
+                          return 'Please enter your Email';
                         }
                         return null;
                       },
                       controller: emailcontroller),
                   SizedBox(
-                    height: 26.h,
-                  ),
-                  ComonTextField(
-                      hintText: 'Create a Password',
-                      validator: (value) {
-                        if (value == '' || value == null) {
-                          return 'Please enter your Password';
-                        }
-                        return null;
-                      },
-                      controller: createpasswordcontroller),
-                  SizedBox(
-                    height: 26.h,
+                    height: 30.h,
                   ),
                   ComonTextField(
                       hintText: 'Confirm your Password',
@@ -121,17 +86,34 @@ class _SignupScreenState extends State<SignupScreen> {
                       },
                       controller: confirmpasswordcontroller),
                   SizedBox(
-                    height: 85.h,
+                    height: 25.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      {
+                        Get.to(() => ForgetScreen());
+                      }
+                    },
+                    child: Text(
+                      'Forgot Password ?',
+                      style: TextStyle(
+                          fontFamily: 'font1',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.green),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25.h,
                   ),
                   ComonButton(
-                    title: 'Sign Up ',
+                    title: 'Sign In ',
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
-                        await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: emailcontroller.text,
-                                password: confirmpasswordcontroller.text);
-                        Get.to(() => SignInScreen());
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email: emailcontroller.text,
+                            password: confirmpasswordcontroller.text);
+                        Get.to(() => AddToDoScreen());
                       }
                     },
                   ),
@@ -142,7 +124,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Already have an account ?',
+                        'Dont have an account ?',
                         style: TextStyle(
                             fontFamily: 'font1',
                             fontSize: 15.sp,
@@ -153,14 +135,16 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.to(() => SignInScreen());
+                          {
+                            Get.to(() => SignupScreen());
+                          }
                         },
                         child: Text(
-                          'Sign In',
+                          'Sign Up',
                           style: TextStyle(
                               fontFamily: 'font1',
                               fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w900,
                               color: AppColors.green),
                         ),
                       ),

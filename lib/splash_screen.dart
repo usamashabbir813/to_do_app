@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/view/auth/login_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:to_do_app/constants/App_color.dart';
+import 'package:to_do_app/view/auth/onboarding.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -17,18 +19,30 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 3), () {});
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginScreen()),
+      MaterialPageRoute(builder: (context) => Onboarding()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        width: double.infinity.w,
+        height: double.infinity.h,
         child: Column(
-          children: [Icon(Icons.facebook)],
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                'Get things done with TODo',
+                style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'font1'),
+              ),
+            ),
+          ],
         ),
       ),
     );

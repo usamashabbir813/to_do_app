@@ -23,6 +23,8 @@ class _LoginScreenState extends State<SignInScreen> {
       TextEditingController();
   final TextEditingController emailcontroller = TextEditingController();
 
+  bool isLoadingg = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,13 +109,21 @@ class _LoginScreenState extends State<SignInScreen> {
                     height: 25.h,
                   ),
                   ComonButton(
+                    isLoading: isLoadingg,
                     title: 'Sign In ',
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          isLoadingg = true;
+                        });
                         await FirebaseAuth.instance.signInWithEmailAndPassword(
                             email: emailcontroller.text,
                             password: confirmpasswordcontroller.text);
                         Get.to(() => AddToDoScreen());
+
+                        setState(() {
+                          isLoadingg = false;
+                        });
                       }
                     },
                   ),

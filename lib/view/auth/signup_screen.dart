@@ -23,6 +23,8 @@ class _SignupScreenState extends State<SignupScreen> {
       TextEditingController();
   final TextEditingController confirmpasswordcontroller =
       TextEditingController();
+  bool isLoadingg = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,13 +127,20 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   ComonButton(
                     title: 'Sign Up ',
+                    isLoading: isLoadingg,
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          isLoadingg = true;
+                        });
                         await FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
                                 email: emailcontroller.text,
                                 password: confirmpasswordcontroller.text);
                         Get.to(() => SignInScreen());
+                        setState(() {
+                          isLoadingg = false;
+                        });
                       }
                     },
                   ),

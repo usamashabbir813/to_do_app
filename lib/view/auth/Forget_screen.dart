@@ -19,6 +19,7 @@ class ForgetScreen extends StatefulWidget {
 class _ForgetScreenState extends State<ForgetScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController forgotpassword = TextEditingController();
+  bool isLoadingg = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,11 +74,18 @@ class _ForgetScreenState extends State<ForgetScreen> {
             ),
             ComonButton(
                 title: 'Forgot',
+                isLoading: isLoadingg,
                 onTap: () async {
                   if (_formKey.currentState!.validate()) {
+                    setState(() {
+                      isLoadingg = true;
+                    });
                     await FirebaseAuth.instance
                         .sendPasswordResetEmail(email: forgotpassword.text);
                     Get.to(() => SignInScreen());
+                    setState(() {
+                      isLoadingg = false;
+                    });
                   }
                 })
           ],

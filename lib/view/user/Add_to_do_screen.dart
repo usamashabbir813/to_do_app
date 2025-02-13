@@ -18,7 +18,7 @@ class AddToDoScreen extends StatefulWidget {
 
 class _AddToDoScreenState extends State<AddToDoScreen> {
   final _formKey = GlobalKey<FormState>();
-  bool isloading = true;
+  bool isLoading = false;
   final TextEditingController titlecontroller = TextEditingController();
   final TextEditingController descriptioncontroller = TextEditingController();
   @override
@@ -97,36 +97,35 @@ class _AddToDoScreenState extends State<AddToDoScreen> {
               height: 41.h,
             ),
             ComonButton(
-                isLoading: isloading,
+                isLoading: isLoading,
                 title: 'Add to list ',
                 onTap: () async {
-                  try {
-                    setState(() {
-                      isloading = true;
-                    });
-                    DocumentReference docRef =
-                        FirebaseFirestore.instance.collection("todo").doc();
-                    await docRef.set({
-                      "docId": docRef.id,
-                      'title': titlecontroller.text.toString(),
-                      'description': descriptioncontroller.text.toString(),
-                    });
-                    setState(() {
-                      isloading = false;
-                    });
-                    Get.back();
-                    Get.snackbar("sucess", "field add");
-                  } on FirebaseException catch (e) {
-                    Get.snackbar("error", e.toString());
-                    setState(() {
-                      isloading = false;
-                    });
-                  }
                   if (_formKey.currentState!.validate()) {
-                    Get.to(TodoappHomeScreen());
+                    try {
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      DocumentReference docRef =
+                          FirebaseFirestore.instance.collection('todo').doc();
+                      await docRef.set({
+                        'docid': docRef.id,
+                        'title': titlecontroller.text,
+                        'description': descriptioncontroller.text,
+                        'time': DateTime.now(),
+                      });
+                      setState(() {
+                        isLoading = false;
+                      });
+                      Get.to(TodoappHomeScreen());
+                    } catch (e) {
+                      Get.snackbar('error', e.toString());
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
                   }
-                  isloading = isloading;
-                })
+                }),
           ],
         ),
       ),

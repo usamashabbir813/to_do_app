@@ -31,144 +31,146 @@ class _LoginScreenState extends State<SignInScreen> {
       backgroundColor: AppColors.backgroundColor,
       body: Form(
         key: _formKey,
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 67.h, right: 327.w, left: 14.w),
-              child: GestureDetector(
-                onTap: () {
-                  Get.back();
-                },
-                child: Icon(
-                  AppIcon.arrowback,
-                  size: 34.h,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 67.h, right: 327.w, left: 14.w),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(
+                    AppIcon.arrowback,
+                    size: 34.h,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 79.h,
-            ),
-            Text(
-              'Welcome Back!',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'font1',
-                  fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              height: 18.h,
-            ),
-            Image.asset(AppImage.Welcome),
-            SizedBox(
-              height: 15.h,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 0.w, right: 0.w),
-              child: Column(
-                children: [
-                  ComonTextField(
-                      hintText: 'Enter your Email address ',
-                      validator: (value) {
-                        if (value == '' || value == null) {
-                          return 'Please enter your Email';
-                        }
-                        return null;
-                      },
-                      controller: emailcontroller),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  ComonTextField(
-                      hintText: 'Confirm your Password',
-                      validator: (value) {
-                        if (value == '' || value == null) {
-                          return 'Please enter your Password';
-                        }
-                        return null;
-                      },
-                      controller: confirmpasswordcontroller),
-                  SizedBox(
-                    height: 25.h,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      {
-                        Get.to(() => ForgetScreen());
-                      }
-                    },
-                    child: Text(
-                      'Forgot Password ?',
-                      style: TextStyle(
-                          fontFamily: 'font1',
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.green),
+              SizedBox(
+                height: 79.h,
+              ),
+              Text(
+                'Welcome Back!',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'font1',
+                    fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 18.h,
+              ),
+              Image.asset(AppImage.Welcome),
+              SizedBox(
+                height: 15.h,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 0.w, right: 0.w),
+                child: Column(
+                  children: [
+                    ComonTextField(
+                        hintText: 'Enter your Email address ',
+                        validator: (value) {
+                          if (value == '' || value == null) {
+                            return 'Please enter your Email';
+                          }
+                          return null;
+                        },
+                        controller: emailcontroller),
+                    SizedBox(
+                      height: 30.h,
                     ),
-                  ),
-                  SizedBox(
-                    height: 25.h,
-                  ),
-                  ComonButton(
-                    isLoading: isLoadingg,
-                    title: 'Sign In ',
-                    onTap: () async {
-                      try {
-                        if (_formKey.currentState!.validate()) {
-                          setState(() {
-                            isLoadingg = true;
-                          });
-                          await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                                  email: emailcontroller.text,
-                                  password: confirmpasswordcontroller.text);
-                          Get.to(() => AddToDoScreen());
-
-                          setState(() {
-                            isLoadingg = false;
-                          });
+                    ComonTextField(
+                        hintText: 'Confirm your Password',
+                        validator: (value) {
+                          if (value == '' || value == null) {
+                            return 'Please enter your Password';
+                          }
+                          return null;
+                        },
+                        controller: confirmpasswordcontroller),
+                    SizedBox(
+                      height: 25.h,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        {
+                          Get.to(() => ForgetScreen());
                         }
-                      } catch (e) {
-                        print(e.toString());
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: 25.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Dont have an account ?',
+                      },
+                      child: Text(
+                        'Forgot Password ?',
                         style: TextStyle(
                             fontFamily: 'font1',
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.green),
                       ),
-                      SizedBox(
-                        width: 3.w,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          {
-                            Get.to(() => SignupScreen());
+                    ),
+                    SizedBox(
+                      height: 25.h,
+                    ),
+                    ComonButton(
+                      isLoading: isLoadingg,
+                      title: 'Sign In ',
+                      onTap: () async {
+                        try {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              isLoadingg = true;
+                            });
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: emailcontroller.text,
+                                    password: confirmpasswordcontroller.text);
+                            Get.to(() => AddToDoScreen());
+
+                            setState(() {
+                              isLoadingg = false;
+                            });
                           }
-                        },
-                        child: Text(
-                          'Sign Up',
+                        } catch (e) {
+                          print(e.toString());
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 25.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Dont have an account ?',
                           style: TextStyle(
                               fontFamily: 'font1',
                               fontSize: 15.sp,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.green),
+                              fontWeight: FontWeight.w500),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            {
+                              Get.to(() => SignupScreen());
+                            }
+                          },
+                          child: Text(
+                            'Sign Up',
+                            style: TextStyle(
+                                fontFamily: 'font1',
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.green),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

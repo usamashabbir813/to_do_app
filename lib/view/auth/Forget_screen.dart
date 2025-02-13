@@ -26,73 +26,75 @@ class _ForgetScreenState extends State<ForgetScreen> {
       backgroundColor: AppColors.backgroundColor,
       body: Form(
         key: _formKey,
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 67.h, right: 327.w, left: 14.w),
-              child: GestureDetector(
-                onTap: () {
-                  Get.back();
-                },
-                child: Icon(
-                  AppIcon.arrowback,
-                  size: 34.h,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 67.h, right: 327.w, left: 14.w),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(
+                    AppIcon.arrowback,
+                    size: 34.h,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 79.h,
-            ),
-            Text(
-              'Forgot Password',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'font1',
-                  fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              height: 45.h,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 95.w, right: 45.w),
-              child: Image.asset(AppImage.forgot),
-            ),
-            SizedBox(
-              height: 41.h,
-            ),
-            ComonTextField(
-                hintText: 'Forgot Password',
-                validator: (value) {
-                  if (value == '' || value == null) {
-                    return 'Please enter your Password';
-                  }
-                  return null;
-                },
-                controller: forgotpassword),
-            SizedBox(
-              height: 57.h,
-            ),
-            ComonButton(
-                title: 'Forgot',
-                isLoading: isLoadingg,
-                onTap: () async {
-                  try {
-                    if (_formKey.currentState!.validate()) {
-                      setState(() {
-                        isLoadingg = true;
-                      });
-                      await FirebaseAuth.instance
-                          .sendPasswordResetEmail(email: forgotpassword.text);
-                      Get.to(() => SignInScreen());
-                      setState(() {
-                        isLoadingg = false;
-                      });
+              SizedBox(
+                height: 79.h,
+              ),
+              Text(
+                'Forgot Password',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'font1',
+                    fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 45.h,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 95.w, right: 45.w),
+                child: Image.asset(AppImage.forgot),
+              ),
+              SizedBox(
+                height: 41.h,
+              ),
+              ComonTextField(
+                  hintText: 'Forgot Password',
+                  validator: (value) {
+                    if (value == '' || value == null) {
+                      return 'Please enter your Password';
                     }
-                  } catch (e) {
-                    print(e.toString());
-                  }
-                })
-          ],
+                    return null;
+                  },
+                  controller: forgotpassword),
+              SizedBox(
+                height: 57.h,
+              ),
+              ComonButton(
+                  title: 'Forgot',
+                  isLoading: isLoadingg,
+                  onTap: () async {
+                    try {
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          isLoadingg = true;
+                        });
+                        await FirebaseAuth.instance
+                            .sendPasswordResetEmail(email: forgotpassword.text);
+                        Get.to(() => SignInScreen());
+                        setState(() {
+                          isLoadingg = false;
+                        });
+                      }
+                    } catch (e) {
+                      print(e.toString());
+                    }
+                  })
+            ],
+          ),
         ),
       ),
     );

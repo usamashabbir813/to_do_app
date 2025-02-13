@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,7 @@ class AddToDoScreen extends StatefulWidget {
 
 class _AddToDoScreenState extends State<AddToDoScreen> {
   final _formKey = GlobalKey<FormState>();
+  bool isloading = true;
   final TextEditingController titlecontroller = TextEditingController();
   final TextEditingController descriptioncontroller = TextEditingController();
   @override
@@ -95,11 +97,35 @@ class _AddToDoScreenState extends State<AddToDoScreen> {
               height: 41.h,
             ),
             ComonButton(
+                isLoading: isloading,
                 title: 'Add to list ',
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    Get.to(() => TodoappHomeScreen());
+                onTap: () async {
+                  try {
+                    setState(() {
+                      isloading = true;
+                    });
+                    DocumentReference docRef =
+                        FirebaseFirestore.instance.collection("todo").doc();
+                    await docRef.set({
+                      "docId": docRef.id,
+                      'title': titlecontroller.text.toString(),
+                      'description': descriptioncontroller.text.toString(),
+                    });
+                    setState(() {
+                      isloading = false;
+                    });
+                    Get.back();
+                    Get.snackbar("sucess", "field add");
+                  } on FirebaseException catch (e) {
+                    Get.snackbar("error", e.toString());
+                    setState(() {
+                      isloading = false;
+                    });
                   }
+                  if (_formKey.currentState!.validate()) {
+                    Get.to(TodoappHomeScreen());
+                  }
+                  isloading = isloading;
                 })
           ],
         ),

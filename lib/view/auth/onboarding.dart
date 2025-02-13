@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:to_do_app/view/auth/signup_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 
@@ -48,11 +49,9 @@ class _OnboardingState extends State<Onboarding> {
           ComonButton(
             title: 'Get Started ',
             onTap: () {
-              try {
-                Get.to(SignupScreen());
-              } catch (e) {
-                print(e.toString());
-              }
+              final box = GetStorage();
+              box.write("isonboardingplayed", true);
+              Get.to(SignupScreen());
             },
           ),
           SizedBox(

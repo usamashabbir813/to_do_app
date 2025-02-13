@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/view/auth/onboarding.dart';
+import 'package:to_do_app/view/auth/signup_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -9,6 +11,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final box = GetStorage();
+
   @override
   void initState() {
     super.initState();
@@ -17,10 +21,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _navigateToHome() async {
     await Future.delayed(Duration(seconds: 3), () {});
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Onboarding()),
-    );
+    bool isonboardingplayed = box.read('isonboardingplayed');
+    if (isonboardingplayed) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => SignupScreen()));
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Onboarding()),
+      );
+    }
   }
 
   @override

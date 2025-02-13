@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/view/auth/Sign_in_screen.dart';
+import 'package:to_do_app/view/user/Add_to_do_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
@@ -138,13 +139,15 @@ class _SignupScreenState extends State<SignupScreen> {
                               .createUserWithEmailAndPassword(
                                   email: emailcontroller.text,
                                   password: confirmpasswordcontroller.text);
-                          Get.to(() => SignInScreen());
+                          Get.to(() => AddToDoScreen());
                           setState(() {
                             isLoadingg = false;
                           });
                         }
                       } catch (e) {
-                        print(e.toString());
+                        Get.snackbar('Error', e.toString(),
+                            backgroundColor: AppColors.red,
+                            colorText: AppColors.white);
                       }
                     },
                   ),

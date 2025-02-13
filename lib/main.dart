@@ -2,14 +2,21 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:to_do_app/firebase_options.dart';
 import 'package:to_do_app/splash_screen.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Required for async calls in main
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init(); // Required for async calls in main
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final box = GetStorage();
+  if (box.read('isonboardingplayed') == null) {
+    box.write('isonboardingplayed', false);
+  }
+
   runApp(const MyApp());
 }
 

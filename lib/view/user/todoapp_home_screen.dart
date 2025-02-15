@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
+import 'package:to_do_app/view/user/Add_to_do_screen.dart';
 import 'package:to_do_app/view/user/add_to_title_screen.dart';
 
 class TodoappHomeScreen extends StatefulWidget {
@@ -112,7 +113,7 @@ class _TodoappHomeScreenState extends State<TodoappHomeScreen> {
                                 Padding(
                                   padding: EdgeInsets.only(right: 160.h),
                                   child: Text(
-                                    data[index]['title'],
+                                    data[index]['title'].toString(),
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontFamily: "Poppins",
@@ -154,7 +155,9 @@ class _TodoappHomeScreenState extends State<TodoappHomeScreen> {
               color: AppColors.white,
             ),
           ),
-          onPressed: () {}),
+          onPressed: () {
+            Get.to(AddToDoScreen());
+          }),
     );
   }
 }

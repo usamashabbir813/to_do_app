@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -141,6 +143,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     email: emailcontroller.text,
                                     password: confirmpasswordcontroller.text);
                             Get.to(() => AddToDoScreen());
+                            Get.snackbar('error', e.toString());
                             setState(() {
                               isLoadingg = false;
                             });

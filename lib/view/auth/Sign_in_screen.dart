@@ -13,10 +13,10 @@ import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
-  State<SignInScreen> createState() => _LoginScreenState();
+  State<SignInScreen> createState() => _siginScreenState();
 }
 
-class _LoginScreenState extends State<SignInScreen> {
+class _siginScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController confirmpasswordcontroller =

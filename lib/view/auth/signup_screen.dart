@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -138,10 +139,24 @@ class _SignupScreenState extends State<SignupScreen> {
                             setState(() {
                               isLoadingg = true;
                             });
+
                             await FirebaseAuth.instance
                                 .createUserWithEmailAndPassword(
                                     email: emailcontroller.text,
                                     password: confirmpasswordcontroller.text);
+                            User? user = FirebaseAuth.instance.currentUser;
+                            DocumentReference docRef = FirebaseFirestore
+                                .instance
+                                .collection('userinfo')
+                                .doc();
+                            await docRef.set({
+                              'email': emailcontroller.text,
+                              "name": Namecontroller.text,
+                              'password': createpasswordcontroller.text,
+                              'userid': user!.uid.toString(),
+                              'profile image': ''
+                            });
+
                             Get.to(() => AddToDoScreen());
                             Get.snackbar('error', e.toString());
                             setState(() {

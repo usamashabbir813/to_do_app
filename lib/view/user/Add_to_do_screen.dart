@@ -114,7 +114,7 @@ class _AddToDoScreenState extends State<AddToDoScreen> {
                         'title': titlecontroller.text,
                         'description': descriptioncontroller.text,
                         'time': DateTime.now(),
-                        "userid": user!.uid.toString()
+                        "userid": user!.uid.toString(),
                       });
                       setState(() {
                         isLoading = false;

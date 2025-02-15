@@ -113,7 +113,7 @@ class _AddToDoScreenState extends State<AddToDoScreen> {
                         'docid': docRef.id,
                         'title': titlecontroller.text,
                         'description': descriptioncontroller.text,
-                        'time': DateTime.now(),
+                        'time': DateTime.now().toString(),
                         "userid": user!.uid.toString(),
                       });
                       setState(() {

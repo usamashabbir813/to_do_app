@@ -154,7 +154,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               "name": Namecontroller.text,
                               'password': createpasswordcontroller.text,
                               'userid': user!.uid.toString(),
-                              'profile image': ''
+                              'profile image': '',
                             });
 
                             Get.to(() => AddToDoScreen());

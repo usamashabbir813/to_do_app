@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:to_do_app/Utils/Date_Time_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/view/user/Add_to_do_screen.dart';
@@ -89,61 +91,65 @@ class _TodoappHomeScreenState extends State<TodoappHomeScreen> {
           SizedBox(
             height: 0.h,
           ),
-          ListView.builder(
-              itemCount: 3,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(AddToTitleScreen());
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 5.h),
-                    child: Card(
-                      color: _getRandomColor(),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
-                        child: ListTile(
-                            title: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(right: 160.h),
-                                  child: Text(
-                                    data[index]['title'].toString(),
+          FutureBuilder(
+            future: FirebaseFirestore.instance.collection('todo').get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Text('Error${(snapshot.error)}');
+              } else {
+                return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(AddToTitleScreen());
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.w, right: 15.w, top: 5.h),
+                          child: Card(
+                            color: _getRandomColor(),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                              child: ListTile(
+                                title: Text(
+                                  snapshot.data!.docs[index]['title'],
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                subtitle: Text(
+                                  snapshot.data!.docs[index]['description'],
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                trailing: Text(
                                     style: TextStyle(
-                                        fontSize: 15,
+                                        fontSize: 13,
                                         fontFamily: "Poppins",
                                         fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 70.h),
-                                  child: Text(
-                                    data[index]['des'],
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                              ],
+                                    DateTimeUtil.formatTime(
+                                      snapshot.data!.docs[index]['time'],
+                                    )),
+                              ),
                             ),
-                            trailing: Text(
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.w700),
-                              data[index]['time'],
-                            )),
-                      ),
-                    ),
-                  ),
-                );
-              }),
+                          ),
+                        ),
+                      );
+                    });
+              }
+            },
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(

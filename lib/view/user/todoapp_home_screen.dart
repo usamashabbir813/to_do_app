@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/constants/App_color.dart';
+import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/view/user/add_to_title_screen.dart';
 
 class TodoappHomeScreen extends StatefulWidget {
@@ -144,6 +145,16 @@ class _TodoappHomeScreenState extends State<TodoappHomeScreen> {
               }),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          shape: CircleBorder(),
+          backgroundColor: AppColors.green,
+          child: Center(
+            child: Icon(
+              AppIcon.add,
+              color: AppColors.white,
+            ),
+          ),
+          onPressed: () {}),
     );
   }
 }

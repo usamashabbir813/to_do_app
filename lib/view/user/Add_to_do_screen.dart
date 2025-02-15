@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -105,7 +106,7 @@ class _AddToDoScreenState extends State<AddToDoScreen> {
                       setState(() {
                         isLoading = true;
                       });
-
+                      User? user = FirebaseAuth.instance.currentUser;
                       DocumentReference docRef =
                           FirebaseFirestore.instance.collection('todo').doc();
                       await docRef.set({
@@ -113,6 +114,7 @@ class _AddToDoScreenState extends State<AddToDoScreen> {
                         'title': titlecontroller.text,
                         'description': descriptioncontroller.text,
                         'time': DateTime.now(),
+                        "userid": user!.uid.toString()
                       });
                       setState(() {
                         isLoading = false;

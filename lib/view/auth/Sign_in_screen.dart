@@ -130,6 +130,10 @@ class _LoginScreenState extends State<SignInScreen> {
                           }
                         } catch (e) {
                           print(e.toString());
+                          Get.snackbar('error', e.toString());
+                          setState(() {
+                            isLoadingg = false;
+                          });
                         }
                       },
                     ),

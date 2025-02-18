@@ -62,14 +62,19 @@ class _ForgetScreenState extends State<ForgetScreen> {
                 height: 41.h,
               ),
               ComonTextField(
-                  hintText: 'Forgot Password',
-                  validator: (value) {
-                    if (value == '' || value == null) {
-                      return 'Please enter your Password';
-                    }
-                    return null;
-                  },
-                  controller: forgotpassword),
+                hintText: 'Forgot Password',
+                validator: (value) {
+                  if (value == '' || value == null) {
+                    return 'Please enter your Password';
+                  }
+                  return null;
+                },
+                controller: forgotpassword,
+                textStyle: TextStyle(
+                    fontFamily: 'font1',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400),
+              ),
               SizedBox(
                 height: 57.h,
               ),

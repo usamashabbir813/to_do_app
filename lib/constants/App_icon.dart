@@ -3,4 +3,6 @@ import 'package:flutter/material.dart';
 class AppIcon {
   static const IconData arrowback = Icons.arrow_circle_left_outlined;
   static const IconData add = Icons.add;
+  static const IconData eddit = Icons.edit;
+  static const IconData delete = Icons.delete;
 }

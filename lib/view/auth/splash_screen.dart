@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/view/auth/onboarding.dart';
 import 'package:to_do_app/view/auth/signup_screen.dart';
-import 'package:to_do_app/view/user/todoapp_home_screen.dart';
+import 'package:to_do_app/view/user/Home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
     } else if (user != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => TodoappHomeScreen()),
+        MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } else {
       Navigator.pushReplacement(

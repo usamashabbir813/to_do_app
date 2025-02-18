@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/view/auth/Sign_in_screen.dart';
-import 'package:to_do_app/view/user/Add_to_do_screen.dart';
+import 'package:to_do_app/view/user/Adtolist_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
@@ -90,43 +90,62 @@ class _SignupScreenState extends State<SignupScreen> {
                         }
                         return null;
                       },
+                      textStyle: TextStyle(
+                          fontFamily: 'font1',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
                       height: 26.h,
                     ),
                     ComonTextField(
-                        hintText: 'Enter your Email address ',
-                        validator: (value) {
-                          if (value == '' || value == null) {
-                            return 'Please enter your email';
-                          }
-                          return null;
-                        },
-                        controller: emailcontroller),
+                      hintText: 'Enter your Email address ',
+                      validator: (value) {
+                        if (value == '' || value == null) {
+                          return 'Please enter your email';
+                        }
+                        return null;
+                      },
+                      controller: emailcontroller,
+                      textStyle: TextStyle(
+                          fontFamily: 'font1',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
                     SizedBox(
                       height: 26.h,
                     ),
                     ComonTextField(
-                        hintText: 'Create a Password',
-                        validator: (value) {
-                          if (value == '' || value == null) {
-                            return 'Please enter your Password';
-                          }
-                          return null;
-                        },
-                        controller: createpasswordcontroller),
+                      hintText: 'Create a Password',
+                      validator: (value) {
+                        if (value == '' || value == null) {
+                          return 'Please enter your Password';
+                        }
+                        return null;
+                      },
+                      controller: createpasswordcontroller,
+                      textStyle: TextStyle(
+                          fontFamily: 'font1',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
                     SizedBox(
                       height: 26.h,
                     ),
                     ComonTextField(
-                        hintText: 'Confirm your Password',
-                        validator: (value) {
-                          if (value == '' || value == null) {
-                            return 'Please enter your Password';
-                          }
-                          return null;
-                        },
-                        controller: confirmpasswordcontroller),
+                      hintText: 'Confirm your Password',
+                      validator: (value) {
+                        if (value == '' || value == null) {
+                          return 'Please enter your Password';
+                        }
+                        return null;
+                      },
+                      controller: confirmpasswordcontroller,
+                      textStyle: TextStyle(
+                          fontFamily: 'font1',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
                     SizedBox(
                       height: 85.h,
                     ),
@@ -157,7 +176,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               'profile image': '',
                             });
 
-                            Get.to(() => AddToDoScreen());
+                            Get.to(() => AdTolistDoScreen());
                             Get.snackbar('error', e.toString());
                             setState(() {
                               isLoadingg = false;

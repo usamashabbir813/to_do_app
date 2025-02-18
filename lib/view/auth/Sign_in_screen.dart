@@ -7,7 +7,7 @@ import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/constants/App_image.dart';
 import 'package:to_do_app/view/auth/Forget_screen.dart';
 import 'package:to_do_app/view/auth/signup_screen.dart';
-import 'package:to_do_app/view/user/Add_to_do_screen.dart';
+import 'package:to_do_app/view/user/Adtolist_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
@@ -68,26 +68,36 @@ class _siginScreenState extends State<SignInScreen> {
                 child: Column(
                   children: [
                     ComonTextField(
-                        hintText: 'Enter your Email address ',
-                        validator: (value) {
-                          if (value == '' || value == null) {
-                            return 'Please enter your Email';
-                          }
-                          return null;
-                        },
-                        controller: emailcontroller),
+                      hintText: 'Enter your Email address ',
+                      validator: (value) {
+                        if (value == '' || value == null) {
+                          return 'Please enter your Email';
+                        }
+                        return null;
+                      },
+                      controller: emailcontroller,
+                      textStyle: TextStyle(
+                          fontFamily: 'font1',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
                     SizedBox(
                       height: 30.h,
                     ),
                     ComonTextField(
-                        hintText: 'Confirm your Password',
-                        validator: (value) {
-                          if (value == '' || value == null) {
-                            return 'Please enter your Password';
-                          }
-                          return null;
-                        },
-                        controller: confirmpasswordcontroller),
+                      hintText: 'Confirm your Password',
+                      validator: (value) {
+                        if (value == '' || value == null) {
+                          return 'Please enter your Password';
+                        }
+                        return null;
+                      },
+                      controller: confirmpasswordcontroller,
+                      textStyle: TextStyle(
+                          fontFamily: 'font1',
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
                     SizedBox(
                       height: 25.h,
                     ),
@@ -112,30 +122,7 @@ class _siginScreenState extends State<SignInScreen> {
                     ComonButton(
                       isLoading: isLoadingg,
                       title: 'Sign In ',
-                      onTap: () async {
-                        try {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              isLoadingg = true;
-                            });
-                            await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                                    email: emailcontroller.text,
-                                    password: confirmpasswordcontroller.text);
-                            Get.to(() => AddToDoScreen());
-
-                            setState(() {
-                              isLoadingg = false;
-                            });
-                          }
-                        } catch (e) {
-                          print(e.toString());
-                          Get.snackbar('error', e.toString());
-                          setState(() {
-                            isLoadingg = false;
-                          });
-                        }
-                      },
+                      onTap: signIn,
                     ),
                     SizedBox(
                       height: 25.h,
@@ -178,5 +165,29 @@ class _siginScreenState extends State<SignInScreen> {
         ),
       ),
     );
+  }
+
+  Future signIn() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        setState(() {
+          isLoadingg = true;
+        });
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailcontroller.text,
+            password: confirmpasswordcontroller.text);
+        Get.to(() => AdTolistDoScreen());
+
+        setState(() {
+          isLoadingg = false;
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+      Get.snackbar('error', e.toString());
+      setState(() {
+        isLoadingg = false;
+      });
+    }
   }
 }

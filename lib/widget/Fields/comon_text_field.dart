@@ -26,6 +26,7 @@ class ComonTextField extends StatelessWidget {
     this.isEnabled = true,
     Key? key,
     this.validator,
+    required TextStyle textStyle,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

@@ -141,10 +141,13 @@ class _AdTolistDoScreenState extends State<AdTolistDoScreen> {
             FirebaseFirestore.instance.collection('todo').doc();
         await docRef.set({
           'docid': docRef.id,
+          'email': user?.email,
+          'password': hashCode,
           'title': TitleController.text,
           'description': DescriptionController.text,
           'time': DateTime.now().toString(),
-          "userid": user!.uid.toString()
+          "userid": user!.uid.toString(),
+          'profile': '',
         });
         setState(() {
           isLoading = false;

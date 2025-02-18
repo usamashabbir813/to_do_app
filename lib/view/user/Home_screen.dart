@@ -9,6 +9,7 @@ import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/constants/App_image.dart';
 import 'package:to_do_app/view/user/Adtolist_screen.dart';
+import 'package:to_do_app/view/user/profile_screen.dart';
 import 'package:to_do_app/view/user/title_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,26 +45,50 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 300.h,
                 width: double.infinity,
               ),
-              Positioned(
-                bottom: 120.h,
-                child: CircleAvatar(
-                  radius: 60.r,
-                  backgroundColor: AppColors.green,
-                  backgroundImage: AssetImage(AppImage.handsome),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 130.h),
-                child: Text(
-                  "Welcome Usama ",
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20.sp,
-                    fontFamily: "font1",
-                  ),
-                ),
-              ),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('userinfo')
+                      .doc('0JzUt9AK0HeggxPgosNN')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (!snapshot.hasData ||
+                        snapshot.data!['profile image'] == '') {
+                      return Text('Todo is not added');
+                    } else {
+                      return Column(
+                        children: [
+                          Positioned(
+                            bottom: 120.h,
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.to(ProfileScreen());
+                              },
+                              child: CircleAvatar(
+                                radius: 60.r,
+                                backgroundColor: AppColors.green,
+                                backgroundImage: NetworkImage(
+                                    snapshot.data!['profile image']),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.h),
+                            child: Text(
+                              "Welcome ${snapshot.data!['name']}",
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20.sp,
+                                fontFamily: "font1",
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  }),
             ],
           ),
           Padding(

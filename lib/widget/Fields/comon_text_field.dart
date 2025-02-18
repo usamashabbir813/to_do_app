@@ -12,8 +12,10 @@ class ComonTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final bool isEnabled;
+  final bool readOnly; // Add readOnly as a parameter
   final showShadow = false;
   final String? Function(String?)? validator;
+
   const ComonTextField({
     required this.hintText,
     required this.controller,
@@ -24,10 +26,12 @@ class ComonTextField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.isEnabled = true,
+    this.readOnly = false, // Default is false, but can be changed
     Key? key,
     this.validator,
     required TextStyle textStyle,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +43,8 @@ class ComonTextField extends StatelessWidget {
         keyboardType: keyboardType,
         textInputAction: textInputAction,
         onChanged: onChanged,
-        enabled: true,
+        enabled: isEnabled,
+        readOnly: readOnly, // Control if the field is editable or not
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(

@@ -5,4 +5,6 @@ class AppIcon {
   static const IconData add = Icons.add;
   static const IconData eddit = Icons.edit;
   static const IconData delete = Icons.delete;
+  static const IconData privacy = Icons.privacy_tip;
+  static const IconData Logout = Icons.logout_outlined;
 }

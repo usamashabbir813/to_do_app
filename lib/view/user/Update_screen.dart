@@ -92,11 +92,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 });
                 final argument = Get.arguments;
                 final String docid = argument['docid'];
-                update(docid).then((_) {
-                  setState(() {
-                    isLoadingg = false;
-                  });
-                });
+                update(docid);
               },
             ),
           )

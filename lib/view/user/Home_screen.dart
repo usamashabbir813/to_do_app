@@ -7,8 +7,7 @@ import 'package:get/get.dart';
 import 'package:to_do_app/Utils/Date_Time_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
-import 'package:to_do_app/constants/App_image.dart';
-import 'package:to_do_app/view/user/Adtolist_screen.dart';
+import "package:to_do_app/view/user/Adtolist_screen.dart";
 import 'package:to_do_app/view/user/profile_screen.dart';
 import 'package:to_do_app/view/user/title_screen.dart';
 

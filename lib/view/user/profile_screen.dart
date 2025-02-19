@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
+import 'package:to_do_app/view/auth/Sign_in_screen.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -131,8 +135,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Row(
               children: [
                 Icon(
-                  AppIcon.privacy,
-                  size: 18.h,
+                  AppIcon.Terms,
+                  size: 20.h,
                 ),
                 SizedBox(
                   width: 5.w,
@@ -156,7 +160,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               left: 45.w,
             ),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                try {
+                  await FirebaseAuth.instance.signOut();
+                  Get.to(SignInScreen());
+                } catch (e) {
+                  print("Error signing out: $e");
+                }
+              },
               child: Row(
                 children: [
                   Icon(

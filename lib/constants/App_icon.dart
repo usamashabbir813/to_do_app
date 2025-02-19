@@ -7,4 +7,5 @@ class AppIcon {
   static const IconData delete = Icons.delete;
   static const IconData privacy = Icons.privacy_tip;
   static const IconData Logout = Icons.logout_outlined;
+  static const IconData Terms = Icons.list_alt_outlined;
 }

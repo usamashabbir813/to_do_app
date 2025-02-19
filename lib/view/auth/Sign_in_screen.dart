@@ -8,6 +8,7 @@ import 'package:to_do_app/constants/App_image.dart';
 import 'package:to_do_app/view/auth/Forget_screen.dart';
 import 'package:to_do_app/view/auth/signup_screen.dart';
 import 'package:to_do_app/view/user/Adtolist_screen.dart';
+import 'package:to_do_app/view/user/Home_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
@@ -176,7 +177,7 @@ class _siginScreenState extends State<SignInScreen> {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailcontroller.text,
             password: confirmpasswordcontroller.text);
-        Get.to(() => AdTolistDoScreen());
+        Get.to(() => HomeScreen());
 
         setState(() {
           isLoadingg = false;

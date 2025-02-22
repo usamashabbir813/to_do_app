@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/Utils/Date_Time_screen.dart';
+import 'package:to_do_app/Utils/loadingutile_screen.dart';
+import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import "package:to_do_app/view/user/Adtolist_screen.dart";
@@ -37,92 +39,92 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  color: AppColors.green,
-                  height: 300.h,
-                  width: double.infinity,
-                ),
-                StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('userprofile')
-                        .doc(userId)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (!snapshot.hasData ||
-                          snapshot.data!['name'] == '') {
-                        return Text('Todo is not added');
-                      } else {
-                        return GestureDetector(
-                          onTap: () {
-                            Get.to(() => ProfileScreen(), arguments: {
-                              'name': snapshot.data!['name'],
-                              'image': snapshot.data!['image'],
-                              'userId': snapshot.data!['userid'],
-                              'email': snapshot.data!['email'],
-                            });
-                          },
-                          child: Column(
-                            children: [
-                              Positioned(
-                                bottom: 120.h,
-                                child: CircleAvatar(
-                                  radius: 60.r,
-                                  backgroundColor: Color(0xff70968f),
-                                  backgroundImage:
-                                      NetworkImage(snapshot.data!['image']),
+      body: Column(
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                color: AppColors.green,
+                height: 300.h,
+                width: double.infinity,
+              ),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('userprofile')
+                      .doc(userId)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (!snapshot.hasData ||
+                        snapshot.data!['name'] == '') {
+                      return Text('Todo is not added');
+                    } else {
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(() => ProfileScreen(), arguments: {
+                            'name': snapshot.data!['name'],
+                            'image': snapshot.data!['image'],
+                            'userId': snapshot.data!['userid'],
+                            'email': snapshot.data!['email'],
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Positioned(
+                              bottom: 120.h,
+                              child: CircleAvatar(
+                                radius: 60.r,
+                                backgroundColor: Color(0xff70968f),
+                                backgroundImage:
+                                    NetworkImage(snapshot.data!['image']),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 10.h),
+                              child: Text(
+                                "Welcome ${snapshot.data!['name']}",
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20.sp,
+                                  fontFamily: "font1",
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 10.h),
-                                child: Text(
-                                  "Welcome ${snapshot.data!['name']}",
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20.sp,
-                                    fontFamily: "font1",
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                    })
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: 230.w, top: 10.h),
-              child: Text(
-                "Todo Tasks.",
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20.sp,
-                  fontFamily: "font1",
-                ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  })
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 230.w, top: 10.h),
+            child: Text(
+              "Todo Tasks.",
+              style: TextStyle(
+                color: AppColors.black,
+                fontWeight: FontWeight.w600,
+                fontSize: 20.sp,
+                fontFamily: "font1",
               ),
             ),
-            StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('todo')
-                  .where('userid', isEqualTo: userId)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return Text('Todo is not added');
-                } else {
-                  return ListView.builder(
+          ),
+          StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('todo')
+                .where('userid', isEqualTo: userId)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return LoadingUtil.shimmerTile(itemcount: 6);
+              } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Text('Todo is not added');
+              } else {
+                return Expanded(
+                  child: ListView.builder(
                       itemCount: snapshot.data!.docs.length,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, index) {
@@ -136,64 +138,61 @@ class _HomeScreenState extends State<HomeScreen> {
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
-                              child: ListTile(
+                            child: ListTile(
+                                onTap: () {
+                                  Get.to(TitleScreen(), arguments: {
+                                    'title': snapshot.data!.docs[index]
+                                        ['title'],
+                                    'description': snapshot.data!.docs[index]
+                                        ['description'],
+                                    'docid': snapshot.data!.docs[index]
+                                        ['docid'],
+                                  });
+                                },
+                                leading: GestureDetector(
                                   onTap: () {
-                                    Get.to(TitleScreen(), arguments: {
-                                      'title': snapshot.data!.docs[index]
-                                          ['title'],
-                                      'description': snapshot.data!.docs[index]
-                                          ['description'],
-                                      'docid': snapshot.data!.docs[index]
-                                          ['docid'],
-                                    });
+                                    delete(snapshot.data!.docs[index].id);
                                   },
-                                  leading: GestureDetector(
-                                    onTap: () {
-                                      delete(snapshot.data!.docs[index].id);
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: AppColors.red,
-                                      child: Icon(
-                                        AppIcon.delete,
-                                        color: AppColors.white,
-                                      ),
+                                  child: CircleAvatar(
+                                    backgroundColor: AppColors.red,
+                                    child: Icon(
+                                      AppIcon.delete,
+                                      color: AppColors.white,
                                     ),
                                   ),
-                                  title: Text(
-                                    snapshot.data!.docs[index]['title'],
+                                ),
+                                title: Text(
+                                  snapshot.data!.docs[index]['title'],
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontFamily: "font1",
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                subtitle: Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  snapshot.data!.docs[index]['description'],
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: "font1",
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                trailing: Text(
                                     style: TextStyle(
-                                        fontSize: 15,
+                                        fontSize: 10,
                                         fontFamily: "font1",
                                         fontWeight: FontWeight.w700),
-                                  ),
-                                  subtitle: Text(
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    snapshot.data!.docs[index]['description'],
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontFamily: "font1",
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  trailing: Text(
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          fontFamily: "font1",
-                                          fontWeight: FontWeight.w700),
-                                      DateTimeUtil.formatTime(
-                                        snapshot.data!.docs[index]['time'],
-                                      ))),
-                            ),
+                                    DateTimeUtil.formatTime(
+                                      snapshot.data!.docs[index]['time'],
+                                    ))),
                           ),
                         );
-                      });
-                }
-              },
-            ),
-          ],
-        ),
+                      }),
+                );
+              }
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
           shape: CircleBorder(),
@@ -214,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       await FirebaseFirestore.instance.collection('todo').doc(docId).delete();
     } catch (e) {
-      Get.snackbar("error", e.toString());
+      SnackbarUtil.showError('Error');
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/constants/App_image.dart';
@@ -176,6 +177,7 @@ class _siginScreenState extends State<SignInScreen> {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailcontroller.text,
             password: confirmpasswordcontroller.text);
+        SnackbarUtil.showSuccess('SignIn Successfull');
         Get.to(() => HomeScreen());
 
         setState(() {
@@ -184,7 +186,7 @@ class _siginScreenState extends State<SignInScreen> {
       }
     } catch (e) {
       print(e.toString());
-      Get.snackbar('error', e.toString());
+      SnackbarUtil.showError('Error');
       setState(() {
         isLoadingg = false;
       });

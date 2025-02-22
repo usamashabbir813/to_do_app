@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/view/auth/Sign_in_screen.dart';
@@ -220,7 +221,7 @@ class _SignupScreenState extends State<SignupScreen> {
         });
       }
     } catch (e) {
-      Get.snackbar("error", e.toString());
+      SnackbarUtil.showError('Error');
       setState(() {
         isLoadingg = false;
       });

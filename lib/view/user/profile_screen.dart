@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/view/auth/Sign_in_screen.dart';
@@ -184,7 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     await FirebaseAuth.instance.signOut();
                     Get.to(SignInScreen());
                   } catch (e) {
-                    print("Error signing out");
+                    SnackbarUtil.showError('Error signing out');
                   }
                 },
                 child: Row(
@@ -226,7 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       Get.back();
     } catch (e) {
-      Get.snackbar('error', e.toString());
+      SnackbarUtil.showError('Error');
     }
   }
 }

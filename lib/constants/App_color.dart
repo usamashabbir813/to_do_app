@@ -9,4 +9,7 @@ class AppColors {
   static const Color darkgreen = Color(0xffB9C9A9);
   static const Color dartblue = Color(0xffAAA9C9);
   static const Color red = Colors.red;
+  static const Color orange = Colors.orange;
+  static const Color teal = Colors.teal;
+  static const Color blue = Colors.blue;
 }

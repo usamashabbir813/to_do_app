@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/view/user/Home_screen.dart';
@@ -118,7 +119,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
       });
       Get.offAll(HomeScreen());
     } catch (e) {
-      Get.snackbar('error', e.toString());
+      SnackbarUtil.showError('Error');
       setState(() {
         isLoadingg = false;
       });

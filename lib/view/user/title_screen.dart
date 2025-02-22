@@ -59,7 +59,7 @@ class _TitleScreenState extends State<TitleScreen> {
             height: 30.h,
           ),
           Padding(
-            padding: EdgeInsets.only(right: 200.w),
+            padding: EdgeInsets.only(right: 220.w),
             child: Text(
               arguments['title'],
               style: TextStyle(
@@ -77,15 +77,18 @@ class _TitleScreenState extends State<TitleScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 11.w, right: 11.w, top: 20.h),
-            child: Text(
-              textAlign: TextAlign.center,
-              arguments['description'],
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15.sp,
-                  color: AppColors.black,
-                  fontFamily: "font1"),
+            padding: EdgeInsets.only(left: 20.w, right: 11.w, top: 10.h),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                textAlign: TextAlign.center,
+                arguments['description'],
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15.sp,
+                    color: AppColors.black,
+                    fontFamily: "font1"),
+              ),
             ),
           ),
         ],

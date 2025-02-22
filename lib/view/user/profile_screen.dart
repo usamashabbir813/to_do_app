@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/view/auth/Sign_in_screen.dart';
@@ -30,6 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = Get.arguments;
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SingleChildScrollView(
@@ -63,6 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   CircleAvatar(
                     radius: 60.r,
                     backgroundColor: AppColors.white,
+                    backgroundImage: NetworkImage(arguments['image']),
                   ),
                 ],
               ),

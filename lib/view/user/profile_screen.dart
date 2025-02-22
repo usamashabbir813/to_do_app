@@ -226,8 +226,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
 
       Get.back();
+      SnackbarUtil.showSuccess('Profile updated successfully');
     } catch (e) {
-      SnackbarUtil.showError('Error');
+      SnackbarUtil.showError('Error updating profile'.toString());
     }
   }
 }

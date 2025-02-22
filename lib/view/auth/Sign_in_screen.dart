@@ -1,14 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/constants/App_image.dart';
+import 'package:to_do_app/controller/auth_controller.dart';
 import 'package:to_do_app/view/auth/Forget_screen.dart';
 import 'package:to_do_app/view/auth/signup_screen.dart';
-import 'package:to_do_app/view/user/Home_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
@@ -19,7 +17,7 @@ class SignInScreen extends StatefulWidget {
 
 class _siginScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
-
+  AuthController authController = Get.put(AuthController());
   final TextEditingController confirmpasswordcontroller =
       TextEditingController();
   final TextEditingController emailcontroller = TextEditingController();
@@ -121,9 +119,12 @@ class _siginScreenState extends State<SignInScreen> {
                       height: 25.h,
                     ),
                     ComonButton(
-                      isLoading: isLoadingg,
+                      isLoading: authController.isLoading.value,
                       title: 'Sign In ',
-                      onTap: signIn,
+                      onTap: () async {
+                        await authController.signin(_formKey, emailcontroller,
+                            confirmpasswordcontroller);
+                      },
                     ),
                     SizedBox(
                       height: 25.h,
@@ -166,30 +167,5 @@ class _siginScreenState extends State<SignInScreen> {
         ),
       ),
     );
-  }
-
-  Future signIn() async {
-    try {
-      if (_formKey.currentState!.validate()) {
-        setState(() {
-          isLoadingg = true;
-        });
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailcontroller.text,
-            password: confirmpasswordcontroller.text);
-        SnackbarUtil.showSuccess('SignIn Successfull');
-        Get.to(() => HomeScreen());
-
-        setState(() {
-          isLoadingg = false;
-        });
-      }
-    } catch (e) {
-      print(e.toString());
-      SnackbarUtil.showError('Error');
-      setState(() {
-        isLoadingg = false;
-      });
-    }
   }
 }

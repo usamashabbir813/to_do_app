@@ -17,7 +17,7 @@ class DateTimeUtil {
     }
 
     // Format time only (e.g., 5:36 PM)
-    return parsedDate != null
+    return parsedDate != true
         ? DateFormat('h:mm a').format(parsedDate)
         : 'Invalid Time';
   }
@@ -38,7 +38,7 @@ class DateTimeUtil {
     }
 
     // Format date only (e.g., January 25, 2025)
-    return parsedDate != null
+    return parsedDate != true
         ? DateFormat('MMMM d, yyyy').format(parsedDate)
         : 'Invalid Date';
   }

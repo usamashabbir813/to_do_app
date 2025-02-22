@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/constants/App_image.dart';
-import 'package:to_do_app/view/auth/Sign_in_screen.dart';
+import 'package:to_do_app/controller/auth_controller.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
@@ -18,6 +17,7 @@ class ForgetScreen extends StatefulWidget {
 
 class _ForgetScreenState extends State<ForgetScreen> {
   final _formKey = GlobalKey<FormState>();
+  AuthController authController = Get.put(AuthController());
   final TextEditingController forgotpassword = TextEditingController();
   bool isLoadingg = false;
   @override
@@ -78,26 +78,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
               SizedBox(
                 height: 57.h,
               ),
-              ComonButton(
-                  title: 'Forgot',
-                  isLoading: isLoadingg,
-                  onTap: () async {
-                    try {
-                      if (_formKey.currentState!.validate()) {
-                        setState(() {
-                          isLoadingg = true;
-                        });
-                        await FirebaseAuth.instance
-                            .sendPasswordResetEmail(email: forgotpassword.text);
-                        Get.to(() => SignInScreen());
-                        setState(() {
-                          isLoadingg = false;
-                        });
-                      }
-                    } catch (e) {
-                      print(e.toString());
-                    }
-                  })
+              ComonButton(title: 'Forgot', isLoading: isLoadingg, onTap: () {})
             ],
           ),
         ),

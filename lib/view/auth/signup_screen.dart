@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
+import 'package:to_do_app/controller/auth_controller.dart';
 import 'package:to_do_app/view/auth/Sign_in_screen.dart';
-import 'package:to_do_app/view/user/Home_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
@@ -19,6 +16,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  AuthController authController = Get.put(AuthController());
   final _formKey = GlobalKey<FormState>();
   final TextEditingController Namecontroller = TextEditingController();
   final TextEditingController emailcontroller = TextEditingController();
@@ -149,9 +147,16 @@ class _SignupScreenState extends State<SignupScreen> {
                       height: 85.h,
                     ),
                     ComonButton(
+                        isLoading: authController.isLoading.value,
                         title: 'Sign Up ',
-                        isLoading: isLoadingg,
-                        onTap: signup),
+                        onTap: () async {
+                          await authController.signup(
+                              _formKey,
+                              emailcontroller,
+                              Namecontroller,
+                              confirmpasswordcontroller,
+                              createpasswordcontroller);
+                        }),
                     SizedBox(
                       height: 25.h,
                     ),
@@ -191,40 +196,5 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
-  }
-
-  Future signup() async {
-    try {
-      if (_formKey.currentState!.validate()) {
-        setState(() {
-          isLoadingg = true;
-        });
-
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: emailcontroller.text,
-            password: createpasswordcontroller.text);
-
-        final String userId = await FirebaseAuth.instance.currentUser!.uid;
-        DocumentReference docRef =
-            FirebaseFirestore.instance.collection('userprofile').doc(userId);
-        await docRef.set({
-          'email': emailcontroller.text,
-          'name': Namecontroller.text,
-          "userid": userId.toString(),
-          'password': createpasswordcontroller.text,
-          'image': '',
-        });
-
-        Get.to(() => HomeScreen());
-        setState(() {
-          isLoadingg = false;
-        });
-      }
-    } catch (e) {
-      SnackbarUtil.showError('Error');
-      setState(() {
-        isLoadingg = false;
-      });
-    }
   }
 }

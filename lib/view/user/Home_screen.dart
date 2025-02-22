@@ -94,7 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 }),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 230.w, top: 10.h),
+            padding: EdgeInsets.only(
+              right: 270.w,
+              top: 10.h,
+            ),
             child: Text(
               "Todo Tasks.",
               style: TextStyle(

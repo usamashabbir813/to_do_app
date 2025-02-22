@@ -18,7 +18,6 @@ class UpdateScreen extends StatefulWidget {
 class _UpdateScreenState extends State<UpdateScreen> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  bool isLoadingg = false;
   @override
   void initState() {
     super.initState();
@@ -26,6 +25,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
     titleController.text = arguments['title'] ?? '';
     descriptionController.text = arguments['description'] ?? '';
   }
+
+  bool isLoadingg = false;
 
   @override
   Widget build(BuildContext context) {

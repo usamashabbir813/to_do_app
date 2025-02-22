@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/view/auth/Sign_in_screen.dart';
-import 'package:to_do_app/view/user/Adtolist_screen.dart';
+import 'package:to_do_app/view/user/Home_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
@@ -150,45 +148,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       height: 85.h,
                     ),
                     ComonButton(
-                      title: 'Sign Up ',
-                      isLoading: isLoadingg,
-                      onTap: () async {
-                        try {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              isLoadingg = true;
-                            });
-
-                            await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                    email: emailcontroller.text,
-                                    password: confirmpasswordcontroller.text);
-                            User? user = FirebaseAuth.instance.currentUser;
-                            DocumentReference docRef = FirebaseFirestore
-                                .instance
-                                .collection('userinfo')
-                                .doc();
-                            await docRef.set({
-                              'email': emailcontroller.text,
-                              "name": Namecontroller.text,
-                              'password': createpasswordcontroller.text,
-                              'userid': user!.uid.toString(),
-                              'profile image': '',
-                            });
-
-                            Get.to(() => AdTolistDoScreen());
-                            Get.snackbar('error', e.toString());
-                            setState(() {
-                              isLoadingg = false;
-                            });
-                          }
-                        } catch (e) {
-                          Get.snackbar('Error', e.toString(),
-                              backgroundColor: AppColors.red,
-                              colorText: AppColors.white);
-                        }
-                      },
-                    ),
+                        title: 'Sign Up ',
+                        isLoading: isLoadingg,
+                        onTap: signup),
                     SizedBox(
                       height: 25.h,
                     ),
@@ -228,5 +190,40 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+  Future signup() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        setState(() {
+          isLoadingg = true;
+        });
+
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailcontroller.text,
+            password: createpasswordcontroller.text);
+
+        final String userId = await FirebaseAuth.instance.currentUser!.uid;
+        DocumentReference docRef =
+            FirebaseFirestore.instance.collection('userprofile').doc(userId);
+        await docRef.set({
+          'email': emailcontroller.text,
+          'name': Namecontroller.text,
+          "userid": userId.toString(),
+          'password': createpasswordcontroller.text,
+          'image': '',
+        });
+
+        Get.to(() => HomeScreen());
+        setState(() {
+          isLoadingg = false;
+        });
+      }
+    } catch (e) {
+      Get.snackbar("error", e.toString());
+      setState(() {
+        isLoadingg = false;
+      });
+    }
   }
 }

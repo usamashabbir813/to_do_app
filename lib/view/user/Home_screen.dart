@@ -41,64 +41,57 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors.backgroundColor,
       body: Column(
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                color: AppColors.green,
-                height: 300.h,
-                width: double.infinity,
-              ),
-              StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('userprofile')
-                      .doc(userId)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (!snapshot.hasData ||
-                        snapshot.data!['name'] == '') {
-                      return Text('Todo is not added');
-                    } else {
-                      return GestureDetector(
-                        onTap: () {
-                          Get.to(() => ProfileScreen(), arguments: {
-                            'name': snapshot.data!['name'],
-                            'image': snapshot.data!['image'],
-                            'userId': snapshot.data!['userid'],
-                            'email': snapshot.data!['email'],
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Positioned(
-                              bottom: 120.h,
-                              child: CircleAvatar(
-                                radius: 60.r,
-                                backgroundColor: Color(0xff70968f),
-                                backgroundImage:
-                                    NetworkImage(snapshot.data!['image']),
+          Container(
+            color: AppColors.green,
+            height: 300.h,
+            width: double.infinity,
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('userprofile')
+                    .doc(userId)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (!snapshot.hasData ||
+                      snapshot.data!['name'] == '') {
+                    return Text('Todo is not added');
+                  } else {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(() => ProfileScreen(), arguments: {
+                          'name': snapshot.data!['name'],
+                          'image': snapshot.data!['image'],
+                          'userId': snapshot.data!['userid'],
+                          'email': snapshot.data!['email'],
+                        });
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 60.r,
+                            backgroundColor: Color(0xff70968f),
+                            backgroundImage:
+                                NetworkImage(snapshot.data!['image']),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.h),
+                            child: Text(
+                              "Welcome ${snapshot.data!['name']}",
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20.sp,
+                                fontFamily: "font1",
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 10.h),
-                              child: Text(
-                                "Welcome ${snapshot.data!['name']}",
-                                style: TextStyle(
-                                  color: AppColors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20.sp,
-                                  fontFamily: "font1",
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  })
-            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                }),
           ),
           Padding(
             padding: EdgeInsets.only(right: 230.w, top: 10.h),

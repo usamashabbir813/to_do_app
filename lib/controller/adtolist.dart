@@ -55,4 +55,12 @@ class Adtocontroller extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future delete(String docId) async {
+    try {
+      await FirebaseFirestore.instance.collection('todo').doc(docId).delete();
+    } catch (e) {
+      SnackbarUtil.showError('Error');
+    }
+  }
 }

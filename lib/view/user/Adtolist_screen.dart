@@ -1,14 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/constants/App_image.dart';
 import 'package:to_do_app/controller/adtolist.dart';
-import 'package:to_do_app/view/user/Home_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 

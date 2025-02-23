@@ -7,9 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/Utils/Date_Time_screen.dart';
 import 'package:to_do_app/Utils/loadingutile_screen.dart';
-import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
+import 'package:to_do_app/controller/adtolist.dart';
 import "package:to_do_app/view/user/Adtolist_screen.dart";
 import 'package:to_do_app/view/user/profile_screen.dart';
 import 'package:to_do_app/view/user/title_screen.dart';
@@ -24,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final Random _random = Random();
   final arguments = Get.arguments;
+  Adtocontroller adtocontroller = Get.put(Adtocontroller());
 
   Color _getRandomColor() {
     List<Color> colors = [
@@ -146,8 +147,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   });
                                 },
                                 leading: GestureDetector(
-                                  onTap: () {
-                                    delete(snapshot.data!.docs[index].id);
+                                  onTap: () async {
+                                    await adtocontroller.delete(
+                                      snapshot.data!.docs[index]['docid'],
+                                    );
                                   },
                                   child: CircleAvatar(
                                     backgroundColor: AppColors.red,
@@ -203,13 +206,5 @@ class _HomeScreenState extends State<HomeScreen> {
             Get.to(AdTolistDoScreen());
           }),
     );
-  }
-
-  Future delete(String docId) async {
-    try {
-      await FirebaseFirestore.instance.collection('todo').doc(docId).delete();
-    } catch (e) {
-      SnackbarUtil.showError('Error');
-    }
   }
 }

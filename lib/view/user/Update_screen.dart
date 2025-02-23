@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/controller/adtolist.dart';
-import 'package:to_do_app/view/user/Home_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/updatetextfield.dart';
 
@@ -88,17 +85,18 @@ class _UpdateScreenState extends State<UpdateScreen> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 30.h),
-            child: ComonButton(
-              title: "Update",
-              isLoading: isLoadingg,
-              onTap: () async {
-                final String docId = arguments['docId'];
-                adtocontroller.updates(
-                    titleController, descriptionController, docId);
-              },
-            ),
-          )
+              padding: EdgeInsets.only(bottom: 30.h),
+              child: Obx(
+                () => ComonButton(
+                  title: "Update",
+                  isLoading: isLoadingg,
+                  onTap: () async {
+                    final String docId = arguments['docid'];
+                    adtocontroller.updates(
+                        titleController, descriptionController, docId);
+                  },
+                ),
+              ))
         ],
       ),
     );

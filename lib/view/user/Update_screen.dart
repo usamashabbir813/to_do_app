@@ -89,7 +89,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
               child: Obx(
                 () => ComonButton(
                   title: "Update",
-                  isLoading: isLoadingg,
+                  isLoading: adtocontroller.isLoading.value,
                   onTap: () async {
                     final String docId = arguments['docid'];
                     adtocontroller.updates(

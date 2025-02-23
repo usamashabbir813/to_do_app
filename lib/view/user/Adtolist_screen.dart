@@ -7,6 +7,7 @@ import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
 import 'package:to_do_app/constants/App_image.dart';
+import 'package:to_do_app/controller/adtolist.dart';
 import 'package:to_do_app/view/user/Home_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
@@ -21,6 +22,7 @@ class AdTolistDoScreen extends StatefulWidget {
 class _AdTolistDoScreenState extends State<AdTolistDoScreen> {
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
+  Adtocontroller adtocontroller = Get.put(Adtocontroller());
 
   final TextEditingController TitleController = TextEditingController();
   final TextEditingController DescriptionController = TextEditingController();
@@ -119,8 +121,16 @@ class _AdTolistDoScreenState extends State<AdTolistDoScreen> {
               SizedBox(
                 height: 40.h,
               ),
-              ComonButton(
-                  isLoading: isLoading, title: 'Add to list ', onTap: addto),
+              Obx(
+                () => ComonButton(
+                  isLoading: adtocontroller.isLoading.value,
+                  title: 'Add to list ',
+                  onTap: () async {
+                    await adtocontroller.Adtolist(
+                        _formKey, TitleController, DescriptionController);
+                  },
+                ),
+              ),
               SizedBox(
                 height: 40.h,
               ),
@@ -129,37 +139,5 @@ class _AdTolistDoScreenState extends State<AdTolistDoScreen> {
         ),
       ),
     );
-  }
-
-  Future addto() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        setState(() {
-          isLoading = true;
-        });
-        User? user = FirebaseAuth.instance.currentUser;
-        DocumentReference docRef =
-            FirebaseFirestore.instance.collection('todo').doc();
-        await docRef.set({
-          'docid': docRef.id,
-          'email': user?.email,
-          'password': hashCode,
-          'title': TitleController.text,
-          'description': DescriptionController.text,
-          'time': DateTime.now().toString(),
-          "userid": user!.uid.toString(),
-          'profile': '',
-        });
-        setState(() {
-          isLoading = false;
-        });
-        Get.to(HomeScreen());
-      } catch (e) {
-        SnackbarUtil.showError('Error');
-        setState(() {
-          isLoading = false;
-        });
-      }
-    }
   }
 }

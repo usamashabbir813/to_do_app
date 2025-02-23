@@ -118,13 +118,15 @@ class _siginScreenState extends State<SignInScreen> {
                     SizedBox(
                       height: 25.h,
                     ),
-                    ComonButton(
-                      isLoading: authController.isLoading.value,
-                      title: 'Sign In ',
-                      onTap: () async {
-                        await authController.signin(_formKey, emailcontroller,
-                            confirmpasswordcontroller);
-                      },
+                    Obx(
+                      () => ComonButton(
+                        isLoading: authController.isLoading.value,
+                        title: 'Sign In ',
+                        onTap: () async {
+                          await authController.signin(_formKey, emailcontroller,
+                              confirmpasswordcontroller);
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: 25.h,

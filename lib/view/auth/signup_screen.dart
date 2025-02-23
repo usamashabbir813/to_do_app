@@ -150,15 +150,17 @@ class _SignupScreenState extends State<SignupScreen> {
                       SizedBox(
                         height: 85.h,
                       ),
-                      ComonButton(
-                          isLoading: authController.isLoading.value,
-                          title: 'Sign Up ',
-                          onTap: () async {
-                            await authController.signup(_formKey,
-                                emailcontroller, createpasswordcontroller);
-                            await userInfoController.addUserInfo(
-                                Namecontroller, emailcontroller);
-                          }),
+                      Obx(
+                        () => ComonButton(
+                            isLoading: authController.isLoading.value,
+                            title: 'Sign Up ',
+                            onTap: () async {
+                              await authController.signup(_formKey,
+                                  emailcontroller, createpasswordcontroller);
+                              await userInfoController.addUserInfo(
+                                  Namecontroller, emailcontroller);
+                            }),
+                      ),
                       SizedBox(
                         height: 25.h,
                       ),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
+import 'package:to_do_app/controller/adtolist.dart';
 import 'package:to_do_app/view/user/Home_screen.dart';
 import 'package:to_do_app/widget/Button/comon_button.dart';
 import 'package:to_do_app/widget/Fields/updatetextfield.dart';
@@ -19,6 +20,8 @@ class UpdateScreen extends StatefulWidget {
 class _UpdateScreenState extends State<UpdateScreen> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  Adtocontroller adtocontroller = Get.put(Adtocontroller());
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +34,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = Get.arguments;
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: Column(
@@ -88,41 +92,15 @@ class _UpdateScreenState extends State<UpdateScreen> {
             child: ComonButton(
               title: "Update",
               isLoading: isLoadingg,
-              onTap: () {
-                setState(() {
-                  isLoadingg = true;
-                });
-                final argument = Get.arguments;
-                final String docid = argument['docid'];
-                update(docid);
+              onTap: () async {
+                final String docId = arguments['docId'];
+                adtocontroller.updates(
+                    titleController, descriptionController, docId);
               },
             ),
           )
         ],
       ),
     );
-  }
-
-  Future update(String docId) async {
-    try {
-      setState(() {
-        isLoadingg = true;
-      });
-
-      await FirebaseFirestore.instance.collection('todo').doc(docId).update({
-        'title': titleController.text,
-        'description': descriptionController.text,
-      });
-
-      setState(() {
-        isLoadingg = false;
-      });
-      Get.offAll(HomeScreen());
-    } catch (e) {
-      SnackbarUtil.showError('Error');
-      setState(() {
-        isLoadingg = false;
-      });
-    }
   }
 }

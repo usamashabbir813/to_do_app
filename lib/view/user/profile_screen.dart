@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:to_do_app/Utils/snackbar_screen.dart';
 import 'package:to_do_app/constants/App_color.dart';
 import 'package:to_do_app/constants/App_icon.dart';
+import 'package:to_do_app/controller/user_info_controller.dart';
 import 'package:to_do_app/view/auth/Sign_in_screen.dart';
 import 'package:to_do_app/widget/Fields/comon_text_field.dart';
 
@@ -20,6 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController Namecontroller = TextEditingController();
   final TextEditingController emailcontroller = TextEditingController();
   final String userId = FirebaseAuth.instance.currentUser!.uid;
+  final UserInfoController userInfoController = Get.put(UserInfoController());
   @override
   void initState() {
     super.initState();
@@ -44,9 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         EdgeInsets.only(left: 320.w, right: 20.w, top: 50.h),
                     child: GestureDetector(
                       onTap: () {
-                        final argument = Get.arguments;
-                        final String userid = argument['userId'];
-                        save(userid);
+                        userInfoController.updateUSerInfo(Namecontroller);
                       },
                       child: Text(
                         'Save',
@@ -214,21 +213,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-
-  Future save(String userid) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('userprofile')
-          .doc(userid)
-          .update({
-        'name': Namecontroller.text,
-      });
-
-      Get.back();
-      SnackbarUtil.showSuccess('Profile updated successfully');
-    } catch (e) {
-      SnackbarUtil.showError('Error updating profile'.toString());
-    }
   }
 }

@@ -78,7 +78,13 @@ class _ForgetScreenState extends State<ForgetScreen> {
               SizedBox(
                 height: 57.h,
               ),
-              ComonButton(title: 'Forgot', isLoading: isLoadingg, onTap: () {})
+              ComonButton(
+                  title: 'Forgot',
+                  isLoading: authController.isLoading.value,
+                  onTap: () async {
+                    await authController.forgetPassword(
+                        _formKey, forgotpassword);
+                  })
             ],
           ),
         ),
